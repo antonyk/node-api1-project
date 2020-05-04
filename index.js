@@ -29,23 +29,37 @@ api.get('/users', (req, res) => {
 
   res.status(200).json(users)
 })
+// 1.2 Get User by ID -- return a single matching user
+api.get('/users/:id', (req, res) => {
+
+})
+
 // 1.2 New User -- ensure bio and name are not empty and generate new unique id
 api.post('/users', (req, res) => {
   if (req.body["name"] && req.body["bio"]) {
     const data = req.body;
     const user = {...initialUser, ...data};
-    user.id = shortid.generate();
+    let id = shortid.generate();
+    while (true) {
+      if (!users.find(item => item.id === id)) break;
+      id = shortid.generate();
+    }
+    user.id = id;
     // append to users array
-    users.push(user);
+    try {
+      users.push(user);
+    } catch (error) {
+      res.status(400).json({ errorMessage: "Failed to append/insert new user; Unknown reason."})
+    }
 
     res.status(200).json(user);
   } else {
 
     res.status(400).json({ errorMessage: "Please provide name and bio for the user" })
   }
-
 })
 
+// 1.3 Delete User
 
 // api.delete()
 

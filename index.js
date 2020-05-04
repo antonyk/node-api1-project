@@ -44,7 +44,7 @@ api.get('/users/:id', (req, res) => {
     if (user) {
       res.status(200).json(user);
     } else {
-      res.status(400).json({ errorMessage: "User with that ID not found"})
+      res.status(404).json({ errorMessage: "The user with the specified ID does not exist." })
     }
   }
 })

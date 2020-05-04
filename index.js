@@ -26,8 +26,12 @@ const users = []
 // 1. USERS
 // 1.1 Get Users -- returns all users
 api.get('/users', (req, res) => {
-
-  res.status(200).json(users)
+  try {
+    res.status(200).json(users)
+  }
+  catch {
+    res.status(500).json({ errorMessage: "The users information could not be retrieved." })
+  }
 })
 // 1.2 Get User by ID -- return a single matching user
 api.get('/users/:id', (req, res) => {

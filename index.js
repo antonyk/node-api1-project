@@ -60,7 +60,7 @@ api.post('/users', (req, res) => {
     try {
       users.push(user);
     } catch (error) {
-      res.status(400).json({ errorMessage: "Failed to append/insert new user; Unknown reason."})
+      res.status(500).json({ errorMessage: "There was an error while saving the user to the database"})
     }
 
     res.status(200).json(user);

@@ -23,8 +23,9 @@ const users = []
 
 
 // ENDPOINTS
-// 1. USERS
-// 1.1 Get Users -- returns all users
+// USERS
+// 1. (R)ETRIEVE
+// 1.1 Get All Users
 api.get('/users', (req, res) => {
   try {
     res.status(200).json(users)
@@ -49,6 +50,7 @@ api.get('/users/:id', (req, res) => {
   }
 })
 
+// 2. (C)REATE
 // 1.2 New User -- ensure bio and name are not empty and generate new unique id
 api.post('/users', (req, res) => {
   if (req.body["name"] && req.body["bio"]) {
@@ -74,11 +76,27 @@ api.post('/users', (req, res) => {
   }
 })
 
-// 1.3 Delete User
+// 3. (D)ELETE
+// 1.3 Delete User by ID
+api.delete('/users/:id', (req, res) => {
+  const id = req.params.id;
+  // return error if id is invalid
+  if (!shortid.isValid(id)) {
+    res.status(400).json({ errorMessage: "Invalid User ID"})
+  }
+  else {
+    const user = users.find(item => item.id === id);
+    if (user) {
+      users = users.filter(item => item.id === id)
+      res.status(200).json(users);
+    } else {
+      res.status(404).json({ errorMessage: "The user with the specified ID does not exist." })
+    }
+  }
+})
 
-// api.delete()
-
-// api.patch()
+// 4. (U)PDATE
+// api.put('/users')
 
 
 

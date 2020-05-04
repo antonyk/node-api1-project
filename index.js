@@ -1,16 +1,30 @@
 // imports
 const express = require('express')
 
-// server config
+// Server config
 const server = express();
 server.use(express.json());
+// Base URL config
+const api = express.Router();
+server.use('/api', api);
+// Port config
 const port = 5000;
 
-// ENDPOINTS
+// DATA
+const initialUser = {
+  id: "",
+  name: "",
+  bio: ""
+}
 
-// USERS
-// Get Users
-// server.get('')
+
+// ENDPOINTS
+// 1. USERS
+// 1.1 Get Users
+api.get('/users', (req, res) => {
+
+  res.status(200).json(initialUser)
+})
 
 // server.post()
 

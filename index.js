@@ -4,9 +4,22 @@ const express = require('express')
 // server config
 const server = express();
 server.use(express.json());
-
+const port = 5000;
 
 // ENDPOINTS
+
+// USERS
+// Get Users
+// server.get('')
+
+// server.post()
+
+
+// server.delete()
+
+// server.patch()
+
+
 
 
 
@@ -16,4 +29,4 @@ server.get('/', (req, res) => {
 })
 
 // SERVER LISTEN
-server.listen(5000, () => console.log('\n== API is up ==\n'))
+server.listen(port, () => console.log(`\n== API is up and listening on port: ${port} ==\n`))

@@ -1,5 +1,6 @@
 // imports
-const express = require('express')
+const express = require('express');
+const shortid = require('shortid');
 
 // Server config
 const server = express();
@@ -14,24 +15,41 @@ const port = 5000;
 const initialUser = {
   id: "",
   name: "",
-  bio: ""
+  bio: "",
+  birthdate: "",
+  location: "",
 }
+const users = []
 
 
 // ENDPOINTS
 // 1. USERS
-// 1.1 Get Users
+// 1.1 Get Users -- returns all users
 api.get('/users', (req, res) => {
 
-  res.status(200).json(initialUser)
+  res.status(200).json(users)
+})
+// 1.2 New User -- ensure bio and name are not empty and generate new unique id
+api.post('/users', (req, res) => {
+  if (req.body["name"] && req.body["bio"]) {
+    const data = req.body;
+    const user = {...initialUser, ...data};
+    user.id = shortid.generate();
+    // append to users array
+    users.push(user);
+
+    res.status(200).json(user);
+  } else {
+
+    res.status(400).json({ errorMessage: "Please provide name and bio for the user" })
+  }
+
 })
 
-// server.post()
 
+// api.delete()
 
-// server.delete()
-
-// server.patch()
+// api.patch()
 
 
 

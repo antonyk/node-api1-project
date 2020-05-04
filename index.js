@@ -31,7 +31,18 @@ api.get('/users', (req, res) => {
 })
 // 1.2 Get User by ID -- return a single matching user
 api.get('/users/:id', (req, res) => {
-
+  // return error if id is invalid
+  if (!shortid.isValid(req.params.id)) {
+    res.status(400).json({ errorMessage: "Invalid User ID"})
+  } 
+  else {
+    const user = users.find(item => item.id === req.params.id);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(400).json({ errorMessage: "User with that ID not found"})
+    }
+  }
 })
 
 // 1.2 New User -- ensure bio and name are not empty and generate new unique id

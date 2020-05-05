@@ -1,10 +1,12 @@
 // imports
 const express = require('express');
 const shortid = require('shortid');
+const cors = require('cors');
 
 // Server config
 const server = express();
 server.use(express.json());
+server.use(cors());
 // Base URL config
 const api = express.Router();
 server.use('/api', api);

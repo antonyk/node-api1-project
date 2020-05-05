@@ -85,9 +85,9 @@ api.delete('/users/:id', (req, res) => {
     res.status(400).json({ errorMessage: "Invalid User ID"})
   }
   else {
-    const user = users.find(item => item.id === id);
-    if (user) {
-      users = users.filter(item => item.id === id)
+    const idx = users.findIndex(item => item.id === id);
+    if (idx > -1) {
+      users.splice(idx, 1)
       res.status(200).json(users);
     } else {
       res.status(404).json({ errorMessage: "The user with the specified ID does not exist." })
@@ -96,7 +96,33 @@ api.delete('/users/:id', (req, res) => {
 })
 
 // 4. (U)PDATE
-// api.put('/users')
+api.put('/users/:id', (req, res) => {
+  const id = req.params.id;
+  // return error if id is invalid
+  if (!shortid.isValid(id)) {
+    res.status(400).json({ errorMessage: "Invalid User ID"})
+  }
+  else { // here ID is valid
+    // verify user exists and get if it does
+    const idx = users.findIndex(item => item.id === id)
+    if (idx > -1) {
+      const data = req.body;
+      // make sure name and bio are not empty
+      if (data["name"] && data["bio"]) {
+        // set updated user
+        users[idx] = {...users[idx], ...data, id: id}
+        // return updated user
+        res.status(200).json(users[idx]);
+      }
+      else { // missing name or bio; error
+        res.status(400).json({ errorMessage: "Please provide name and bio for the user" })
+      }
+    }
+    else {
+      res.status(404).json({ errorMessage: "This user does not exist." })
+    }
+  }
+})
 
 
 
